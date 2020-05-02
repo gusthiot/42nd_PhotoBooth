@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'welcome.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -17,9 +17,12 @@ class Ui_WelcomeWindow(object):
         self.takeButton = QtWidgets.QPushButton(self.centralwidget)
         self.takeButton.setGeometry(QtCore.QRect(120, 180, 211, 30))
         self.takeButton.setObjectName("takeButton")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(60, 70, 401, 61))
-        self.label.setObjectName("label")
+        self.welcomeLabel = QtWidgets.QLabel(self.centralwidget)
+        self.welcomeLabel.setGeometry(QtCore.QRect(60, 70, 401, 61))
+        self.welcomeLabel.setObjectName("welcomeLabel")
+        self.welcomeVideo = QVideoWidget(self.centralwidget)
+        self.welcomeVideo.setGeometry(QtCore.QRect(500, 180, 261, 231))
+        self.welcomeVideo.setObjectName("welcomeVideo")
         WelcomeWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(WelcomeWindow)
         self.statusbar.setObjectName("statusbar")
@@ -32,5 +35,6 @@ class Ui_WelcomeWindow(object):
         _translate = QtCore.QCoreApplication.translate
         WelcomeWindow.setWindowTitle(_translate("WelcomeWindow", "Bienvenue  !"))
         self.takeButton.setText(_translate("WelcomeWindow", "Prendre une photo"))
-        self.label.setText(_translate("WelcomeWindow", "Bienvenue dans le PhotoBooth de 42nd Street !!!"))
+        self.welcomeLabel.setText(_translate("WelcomeWindow", "Bienvenue dans le PhotoBooth de 42nd Street !!!"))
 
+from PyQt5.QtMultimediaWidgets import QVideoWidget

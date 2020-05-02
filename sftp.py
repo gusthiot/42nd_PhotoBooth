@@ -2,20 +2,23 @@
 import paramiko
 import warnings
 import cryptography
+import json
 warnings.simplefilter("ignore", cryptography.utils.CryptographyDeprecationWarning)
 
 
 class Sftp():
 
     def put(filename, localDirectory):
-        
+        with open('sftp.json') as f:
+  			parameters = json.load(f)
+
         remoteDirectory = DIRECTORY
 
-        host = HOST
-        port = PORT
+        host = parameters['host']
+        port = parameters['port']
         
-        username = USER
-        password = PWD
+        username = parameters['user']
+        password = parameters['pwd']
         
         transport = paramiko.Transport((host,port))
                   

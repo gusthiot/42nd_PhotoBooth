@@ -27,7 +27,7 @@
      <string>Prendre une photo</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="welcomeLabel">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -40,9 +40,27 @@
      <string>Bienvenue dans le PhotoBooth de 42nd Street !!!</string>
     </property>
    </widget>
+   <widget class="QVideoWidget" name="welcomeVideo" native="true">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>180</y>
+      <width>261</width>
+      <height>231</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QVideoWidget</class>
+   <extends>QWidget</extends>
+   <header>PyQt5.QtMultimediaWidgets</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

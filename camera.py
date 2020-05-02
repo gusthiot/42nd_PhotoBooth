@@ -2,7 +2,8 @@ from picamera import PiCamera
 import time
 import sys
 
-class Camera():
+
+class Camera:
     
     def __init__(self, localDirectory):
         self.camera = PiCamera()
