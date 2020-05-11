@@ -11,3 +11,15 @@ class ThanksWindow(QMainWindow, Ui_ThanksWindow):
         self.setupUi(self)
         self.adressLabel.setVisible(False)
         self.adressEdit.setVisible(False)
+
+    def getEmail(self):
+        return self.adressEdit.text()
+
+    def sendSocial(self):
+        return self.socialYesButton.isChecked()
+
+    def sendEmail(self):
+        return self.emailYesButton.isChecked()
+
+    def setErrorMessage(self, message):
+        self.errorLabel.setText(message)

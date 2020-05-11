@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtGui import QPixmap
 from ui.display_ui import Ui_DisplayWindow
 
 
 class DisplayWindow(QMainWindow, Ui_DisplayWindow):
 
-    def __init__(self, num):
+    def __init__(self, num, img, ldir):
         super(self.__class__, self).__init__()
         self.setupUi(self)
 
+        self.imageLabel.setPixmap(QPixmap(ldir + img + '.jpg'))
+        self.imageLabel.setScaledContents(True)
         if num > 3:
             self.redoButton.setVisible(False)
             self.triesLabel.setVisible(True)

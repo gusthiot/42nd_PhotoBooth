@@ -15,8 +15,8 @@ class Camera:
         try:
             self.camera.start_preview()
             time.sleep(5)
-            filename = time.strftime("%y%m%d_%H%M%S") + ".jpg"
-            self.camera.capture(self.localDirectory + filename)
+            filename = time.strftime("%y%m%d_%H%M%S")
+            self.camera.capture(self.localDirectory + filename + ".jpg")
             ret = filename
         except:
             sys.exit()

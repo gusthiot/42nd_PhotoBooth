@@ -2,3 +2,5 @@ __pycache__
 venv
 sftp.json
 .idea
+/Photos
+/log
