@@ -3,32 +3,36 @@
 import json
 import time
 import re
+import os
 import logging
-from PyQt5.QtCore import pyqtSignal, QObject, QTimer
+from PyQt5.QtCore import QObject, QTimer
 from welcome_window import WelcomeWindow
 from display_window import DisplayWindow
 from thanks_window import ThanksWindow
+from wait_widget import WaitWidget
 # from camera import Camera
-# from sftp import Sftp
+from sftp import Sftp
 
 
 class Process(QObject):
 
-    activitySignal = pyqtSignal()
-
-    def __init__(self, ldir, welcomeVid, waitVid):
+    def __init__(self, ldir, rdir, welcomeVid, waitVid):
         QObject.__init__(self)
         self.logger = logging.getLogger(__name__)
         self.ldir = ldir
+        self.rdir = rdir
+        self.waitVid = waitVid
         # cam = Camera(ldir)
         self.w_w = WelcomeWindow(welcomeVid)
-        self.watcher = Watcher(waitVid)
-        self.activitySignal.connect(self.watcher.setRunning)
-        self.watcher.standbySignal.connect(self.reinit)
+        self.running = False
+        self.waiting = True
+        self.minutes = 0
         self.t_w = None
         self.d_w = None
+        self.v_w = None
         self.num = 0
         self.img = "20200501_132612"
+        self.sftp = Sftp()
 
     def reinit(self):
         self.t_w = None
@@ -41,7 +45,7 @@ class Process(QObject):
         self.w_w.showFullScreen()
         self.w_w.player.play()
         self.noteActivity("Ecran de bienvenue affiché")
-        QTimer.singleShot(10000, self.p)
+        QTimer.singleShot(1000, self.check)
 
     def takePicture(self):
         self.w_w.player.pause()
@@ -51,7 +55,6 @@ class Process(QObject):
     def picture(self):
         #  img = self.cam.takePicture()
         self.noteActivity("Photo prise")
-        #  Sftp.put(img, ldir)
         self.num = self.num + 1
         self.d_w = DisplayWindow(self.num, self.img, self.ldir)
         self.d_w.redoButton.clicked.connect(self.redoPicture)
@@ -136,4 +139,48 @@ class Process(QObject):
 
     def noteActivity(self, message):
         self.logger.info(message)
-        self.activitySignal.emit()
+        self.running = True
+
+    def check(self):
+        print(self.minutes)
+        if not self.running:
+            if self.minutes < 5:
+                self.minutes += 1
+                QTimer.singleShot(1000, self.check)
+            else:
+                self.noteActivity("Mise en veille")
+                self.minutes = 0
+                self.v_w = WaitWidget(self.waitVid)
+                self.v_w.pressedSignal.connect(self.pressed)
+                self.v_w.showFullScreen()
+                self.w_w.player.pause()
+                self.reinit()
+                QTimer.singleShot(1000, self.download)
+                self.v_w.player.play()
+                self.waiting = True
+        else:
+            self.minutes = 0
+            self.running = False
+            QTimer.singleShot(1000, self.check)
+
+    def pressed(self):
+        self.noteActivity("Réveil")
+        self.waiting = False
+        self.v_w.close()
+        self.w_w.player.play()
+        QTimer.singleShot(1000, self.check)
+
+    def download(self):
+        if self.sftp.connect():
+            for f in os.listdir(self.ldir):
+                if os.path.isfile(os.path.join(self.ldir, f)):
+                    if f.endswith(".jpg"):
+                        name = f.split(".")[0]
+                        self.noteActivity("Envoi de " + name)
+                        if self.sftp.put(f, self.ldir, self.rdir):
+                            if self.sftp.put(name + ".json", self.ldir, self.rdir):
+                                os.remove(os.path.join(self.ldir, f))
+                                os.remove(os.path.join(self.ldir, name + ".json"))
+                if not self.waiting:
+                    self.sftp.close()
+                    break

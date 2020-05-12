@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'wait.ui'
+# Form implementation generated from reading ui file 'video.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
 #
@@ -8,25 +8,15 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_WaitWindow(object):
-    def setupUi(self, WaitWindow):
-        WaitWindow.setObjectName("WaitWindow")
-        WaitWindow.resize(800, 600)
-        self.centralwidget = QtWidgets.QWidget(WaitWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.waitVideo = QVideoWidget(self.centralwidget)
-        self.waitVideo.setGeometry(QtCore.QRect(-170, -10, 1021, 701))
-        self.waitVideo.setObjectName("waitVideo")
-        WaitWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(WaitWindow)
-        self.statusbar.setObjectName("statusbar")
-        WaitWindow.setStatusBar(self.statusbar)
+class Ui_WaitWidget(object):
+    def setupUi(self, WaitWidget):
+        WaitWidget.setObjectName("WaitWidget")
+        WaitWidget.resize(570, 381)
 
-        self.retranslateUi(WaitWindow)
-        QtCore.QMetaObject.connectSlotsByName(WaitWindow)
+        self.retranslateUi(WaitWidget)
+        QtCore.QMetaObject.connectSlotsByName(WaitWidget)
 
-    def retranslateUi(self, WaitWindow):
+    def retranslateUi(self, WaitWidget):
         _translate = QtCore.QCoreApplication.translate
-        WaitWindow.setWindowTitle(_translate("WaitWindow", "MainWindow"))
+        WaitWidget.setWindowTitle(_translate("WaitWidget", "Form"))
 
-from PyQt5.QtMultimediaWidgets import QVideoWidget

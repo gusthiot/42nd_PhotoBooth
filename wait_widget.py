@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtCore import QUrl, QDir
+from PyQt5.QtCore import QUrl, QDir, pyqtSignal
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent, QMediaPlaylist
-from ui.wait_ui import Ui_WaitWindow
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+from ui.wait_ui import Ui_WaitWidget
 
 
-class WaitWindow(QMainWindow, Ui_WaitWindow):
+class WaitWidget(QVideoWidget, Ui_WaitWidget):
+
+    pressedSignal = pyqtSignal()
 
     def __init__(self, waitVid):
         super(self.__class__, self).__init__()
@@ -19,4 +21,8 @@ class WaitWindow(QMainWindow, Ui_WaitWindow):
         self.pList.addMedia(QMediaContent(fullMedia))
         self.player.setPlaylist(self.pList)
         self.pList.setPlaybackMode(QMediaPlaylist.CurrentItemInLoop)
-        self.player.setVideoOutput(self.waitVideo)
+        self.player.setVideoOutput(self)
+        self.setFullScreen(True)
+
+    def mousePressEvent(self, event):
+        self.pressedSignal.emit()

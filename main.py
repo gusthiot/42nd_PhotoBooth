@@ -14,6 +14,7 @@ waitVideo = "wait.mp4"
 welcomeVideo = "welcome.mp4"
 # logDirectory = "/home/pi/42nd_PhotoBooth/log"
 logDirectory = "/home/christophe/42nd_PhotoBooth/log"
+remoteDirectory = "/photobooth/"
 
 if not os.path.exists(photoDirectory):
     os.mkdir(photoDirectory)
@@ -32,6 +33,6 @@ app = QApplication(sys.argv)
 b_w = BlackWindow()
 b_w.showFullScreen()
 
-process = Process(photoDirectory, welcomeVideo, waitVideo)
+process = Process(photoDirectory, remoteDirectory, welcomeVideo, waitVideo)
 process.start()
 sys.exit(app.exec_())
