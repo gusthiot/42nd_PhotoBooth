@@ -146,14 +146,14 @@ class Process(QObject):
         if not self.running:
             if self.minutes < 5:
                 self.minutes += 1
-                QTimer.singleShot(1000, self.check)
+                QTimer.singleShot(2000, self.check)
             else:
                 self.noteActivity("Mise en veille")
                 self.minutes = 0
                 self.v_w = WaitWidget(self.waitVid)
                 self.v_w.pressedSignal.connect(self.pressed)
                 self.v_w.showFullScreen()
-                self.w_w.player.pause()
+                self.w_w.player.stop()
                 self.reinit()
                 QTimer.singleShot(1000, self.download)
                 self.v_w.player.play()
@@ -161,10 +161,11 @@ class Process(QObject):
         else:
             self.minutes = 0
             self.running = False
-            QTimer.singleShot(1000, self.check)
+            QTimer.singleShot(2000, self.check)
 
     def pressed(self):
         self.noteActivity("Réveil")
+        self.v_w.player.stop()
         self.waiting = False
         self.v_w.close()
         self.w_w.player.play()

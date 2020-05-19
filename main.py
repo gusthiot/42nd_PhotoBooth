@@ -10,7 +10,7 @@ from process import Process
 
 # photoDirectory = "/home/pi/Photos/"
 photoDirectory = "/home/christophe/42nd_PhotoBooth/Photos/"
-waitVideo = "wait.mp4"
+waitVideo = "wait.webm"
 welcomeVideo = "welcome.mp4"
 # logDirectory = "/home/pi/42nd_PhotoBooth/log"
 logDirectory = "/home/christophe/42nd_PhotoBooth/log"
