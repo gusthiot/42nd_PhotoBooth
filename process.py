@@ -10,7 +10,7 @@ from welcome_window import WelcomeWindow
 from display_window import DisplayWindow
 from thanks_window import ThanksWindow
 from wait_widget import WaitWidget
-# from camera import Camera
+from camera import Camera
 from sftp import Sftp
 
 
@@ -22,7 +22,7 @@ class Process(QObject):
         self.ldir = ldir
         self.rdir = rdir
         self.waitVid = waitVid
-        # cam = Camera(ldir)
+        self.cam = Camera(ldir)
         self.w_w = WelcomeWindow(welcomeVid)
         self.running = False
         self.waiting = True
@@ -53,7 +53,7 @@ class Process(QObject):
         self.picture()
 
     def picture(self):
-        #  img = self.cam.takePicture()
+        img = self.cam.takePicture()
         self.noteActivity("Photo prise")
         self.num = self.num + 1
         self.d_w = DisplayWindow(self.num, self.img, self.ldir)

@@ -8,12 +8,12 @@ from PyQt5.QtWidgets import QApplication
 from black_window import BlackWindow
 from process import Process
 
-# photoDirectory = "/home/pi/Photos/"
-photoDirectory = "/home/christophe/42nd_PhotoBooth/Photos/"
+photoDirectory = "/home/pi/Photos/"
+# photoDirectory = "/home/christophe/42nd_PhotoBooth/Photos/"
 waitVideo = "wait.mp4"
 welcomeVideo = "welcome.mp4"
-# logDirectory = "/home/pi/42nd_PhotoBooth/log"
-logDirectory = "/home/christophe/42nd_PhotoBooth/log"
+logDirectory = "/home/pi/42nd_PhotoBooth/log"
+# logDirectory = "/home/christophe/42nd_PhotoBooth/log"
 remoteDirectory = "/photobooth/"
 
 if not os.path.exists(photoDirectory):
