@@ -10,19 +10,24 @@ from welcome_window import WelcomeWindow
 from display_window import DisplayWindow
 from thanks_window import ThanksWindow
 from wait_widget import WaitWidget
-from camera import Camera
+try:
+    from camera import Camera
+except:
+    print("no camera")
 from sftp import Sftp
 
 
 class Process(QObject):
 
-    def __init__(self, ldir, rdir, welcomeVid, waitVid, mdir):
+    def __init__(self, ldir, rdir, welcomeVid, waitVid, mdir, withCam):
         QObject.__init__(self)
         self.logger = logging.getLogger(__name__)
         self.ldir = ldir
         self.rdir = rdir
+        self.withCam = withCam
         self.waitVid = mdir + waitVid
-        self.cam = Camera(ldir)
+        if withCam:
+            self.cam = Camera(ldir)
         self.w_w = WelcomeWindow(mdir + welcomeVid)
         self.running = False
         self.waiting = True
@@ -32,7 +37,7 @@ class Process(QObject):
         self.v_w = None
         self.num = 0
         self.img = "20200501_132612"
-        self.sftp = Sftp(mdir)
+        self.sftp = Sftp(mdir, withCam)
 
     def reinit(self):
         self.t_w = None
@@ -53,7 +58,8 @@ class Process(QObject):
         self.picture()
 
     def picture(self):
-        img = self.cam.takePicture()
+        if self.withCam:
+            self.img = self.cam.takePicture()
         self.noteActivity("Photo prise")
         self.num = self.num + 1
         self.d_w = DisplayWindow(self.num, self.img, self.ldir)

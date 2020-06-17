@@ -23,9 +23,11 @@ from process import Process
 arguments = docopt(__doc__)
 
 if arguments["--pc"]:
+    withCam = False
     mainDirectory = "/home/christophe/42nd_PhotoBooth/"
     photoDirectory = mainDirectory + "Photos/"
 else:
+    withCam = True
     mainDirectory = "/home/pi/42nd_PhotoBooth/"
     photoDirectory = "/home/pi/Photos/"
 
@@ -55,6 +57,6 @@ b_w = BlackWindow()
 b_w.showFullScreen()
 
 process = Process(photoDirectory, remoteDirectory, welcomeVideo,
-                  waitVideo, mainDirectory)
+                  waitVideo, mainDirectory, withCam)
 process.start()
 sys.exit(app.exec_())

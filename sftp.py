@@ -6,11 +6,13 @@ import json
 
 import warnings
 import cryptography
-warnings.simplefilter("ignore", cryptography.utils.CryptographyDeprecationWarning)
+
 
 class Sftp:
 
-    def __init__(self, mdir):
+    def __init__(self, mdir, withCam):
+        if withCam:
+            warnings.simplefilter("ignore", cryptography.utils.CryptographyDeprecationWarning)
         self.logger = logging.getLogger(__name__)
         with open(mdir +'sftp.json') as f:
             parameters = json.load(f)
