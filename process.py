@@ -16,14 +16,14 @@ from sftp import Sftp
 
 class Process(QObject):
 
-    def __init__(self, ldir, rdir, welcomeVid, waitVid):
+    def __init__(self, ldir, rdir, welcomeVid, waitVid, mdir):
         QObject.__init__(self)
         self.logger = logging.getLogger(__name__)
         self.ldir = ldir
         self.rdir = rdir
-        self.waitVid = waitVid
+        self.waitVid = mdir + waitVid
         self.cam = Camera(ldir)
-        self.w_w = WelcomeWindow(welcomeVid)
+        self.w_w = WelcomeWindow(mdir + welcomeVid)
         self.running = False
         self.waiting = True
         self.minutes = 0
@@ -32,7 +32,7 @@ class Process(QObject):
         self.v_w = None
         self.num = 0
         self.img = "20200501_132612"
-        self.sftp = Sftp()
+        self.sftp = Sftp(mdir)
 
     def reinit(self):
         self.t_w = None

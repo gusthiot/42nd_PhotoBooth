@@ -23,14 +23,16 @@ from process import Process
 arguments = docopt(__doc__)
 
 if arguments["--pc"]:
-    photoDirectory = "/home/christophe/42nd_PhotoBooth/Photos/"
-    logDirectory = "/home/christophe/42nd_PhotoBooth/log"
+    mainDirectory = "/home/christophe/42nd_PhotoBooth/"
+    photoDirectory = mainDirectory + "Photos/"
 else:
+    mainDirectory = "/home/pi/42nd_PhotoBooth/"
     photoDirectory = "/home/pi/Photos/"
-    logDirectory = "/home/pi/42nd_PhotoBooth/log"
 
-waitVideo = "wait.webm"
-welcomeVideo = "welcome.mp4"
+logDirectory = mainDirectory + "log"
+    
+waitVideo = "welcome.mp4"
+welcomeVideo = "wait.webm"
 
 remoteDirectory = "/photobooth/"
 
@@ -47,10 +49,12 @@ logger = logging.getLogger(__name__)
 logger.info('Programme lancé')
 
 os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
+#os.environ["QT_DEBUG_PLUGINS"] = "1"
 app = QApplication(sys.argv)
 b_w = BlackWindow()
 b_w.showFullScreen()
 
-process = Process(photoDirectory, remoteDirectory, welcomeVideo, waitVideo)
+process = Process(photoDirectory, remoteDirectory, welcomeVideo,
+                  waitVideo, mainDirectory)
 process.start()
 sys.exit(app.exec_())
