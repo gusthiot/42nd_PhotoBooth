@@ -4,12 +4,15 @@ import traceback
 import logging
 import json
 
+import warnings
+import cryptography
+warnings.simplefilter("ignore", cryptography.utils.CryptographyDeprecationWarning)
 
 class Sftp:
 
-    def __init__(self):
+    def __init__(self, mdir):
         self.logger = logging.getLogger(__name__)
-        with open('sftp.json') as f:
+        with open(mdir +'sftp.json') as f:
             parameters = json.load(f)
         self.host = parameters['host']
         self.port = parameters['port']
