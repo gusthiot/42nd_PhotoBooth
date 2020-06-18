@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtCore import QUrl, QDir
+from PyQt5.QtCore import QUrl
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent, QMediaPlaylist
 from ui.welcome_ui import Ui_WelcomeWindow
 

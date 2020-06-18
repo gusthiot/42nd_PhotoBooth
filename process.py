@@ -10,10 +10,10 @@ from welcome_window import WelcomeWindow
 from display_window import DisplayWindow
 from thanks_window import ThanksWindow
 from wait_widget import WaitWidget
-try:
-    from camera import Camera
-except:
-    print("no camera")
+#try:
+from camera import Camera
+#except:
+#    print("no camera")
 from sftp import Sftp
 
 
@@ -27,7 +27,7 @@ class Process(QObject):
         self.withCam = withCam
         self.waitVid = mdir + waitVid
         if withCam:
-            self.cam = Camera(ldir)
+            self.cam = Camera(ldir, mdir)
         self.w_w = WelcomeWindow(mdir + welcomeVid)
         self.running = False
         self.waiting = True
@@ -67,6 +67,7 @@ class Process(QObject):
         self.d_w.okButton.clicked.connect(self.okPicture)
         self.d_w.cancelButton.clicked.connect(self.cancelPicture)
         self.d_w.showFullScreen()
+        print("showed")
         self.noteActivity("Ecran d'affichage affiché")
 
     def redoPicture(self):
@@ -149,6 +150,7 @@ class Process(QObject):
 
     def check(self):
         print(self.minutes)
+        """
         if not self.running:
             if self.minutes < 5:
                 self.minutes += 1
@@ -168,6 +170,7 @@ class Process(QObject):
             self.minutes = 0
             self.running = False
             QTimer.singleShot(2000, self.check)
+            """
 
     def pressed(self):
         self.noteActivity("Réveil")

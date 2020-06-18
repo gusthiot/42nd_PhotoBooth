@@ -49,14 +49,18 @@ logging.basicConfig(filename=filename, format='%(asctime)s - %(name)s(%(levelnam
                     level=logging.INFO, datefmt='%m/%d/%Y %I:%M:%S')
 logger = logging.getLogger(__name__)
 logger.info('Programme lancé')
+try :
+    #os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
+    #os.environ["QT_DEBUG_PLUGINS"] = "1"
+    #os.environ["GST_DEBUG"] = "3"
+    app = QApplication(sys.argv)
+    b_w = BlackWindow()
+    b_w.showFullScreen()
 
-os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
-#os.environ["QT_DEBUG_PLUGINS"] = "1"
-app = QApplication(sys.argv)
-b_w = BlackWindow()
-b_w.showFullScreen()
-
-process = Process(photoDirectory, remoteDirectory, welcomeVideo,
-                  waitVideo, mainDirectory, withCam)
-process.start()
-sys.exit(app.exec_())
+    process = Process(photoDirectory, remoteDirectory, welcomeVideo,
+                      waitVideo, mainDirectory, withCam)
+    process.start()
+except:
+    self.logger.error(traceback.format_exc())
+finally:
+    sys.exit(app.exec_())

@@ -16,6 +16,8 @@ class DisplayWindow(QMainWindow, Ui_DisplayWindow):
         if num > 3:
             self.redoButton.setVisible(False)
             self.triesLabel.setVisible(True)
+            self.displayLabel.setText("Est-ce que cela vous plaît ?")
         else:
             self.redoButton.setVisible(True)
             self.triesLabel.setVisible(False)
+            self.displayLabel.setText("Est-ce que cela vous plaît ? (Encore " + str(4-num) + " essais possibles)")

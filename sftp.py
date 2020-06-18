@@ -14,15 +14,18 @@ class Sftp:
         if withCam:
             warnings.simplefilter("ignore", cryptography.utils.CryptographyDeprecationWarning)
         self.logger = logging.getLogger(__name__)
-        with open(mdir +'sftp.json') as f:
-            parameters = json.load(f)
-        self.host = parameters['host']
-        self.port = parameters['port']
-        self.username = parameters['user']
-        self.password = parameters['pwd']
-        self.sftp = None
-        self.client = paramiko.SSHClient()
-        self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        try :
+            with open(mdir +'sftp.json') as f:
+                parameters = json.load(f)
+            self.host = parameters['host']
+            self.port = parameters['port']
+            self.username = parameters['user']
+            self.password = parameters['pwd']
+            self.sftp = None
+            self.client = paramiko.SSHClient()
+            self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        except:
+            self.logger.error(traceback.format_exc())
 
     def connect(self):
         try:
