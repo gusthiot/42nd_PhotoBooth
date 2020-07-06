@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'thanks.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_ThanksWindow(object):
     def setupUi(self, ThanksWindow):
         ThanksWindow.setObjectName("ThanksWindow")
-        ThanksWindow.resize(800, 600)
+        ThanksWindow.resize(800, 499)
         self.centralwidget = QtWidgets.QWidget(ThanksWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.thanksLabel = QtWidgets.QLabel(self.centralwidget)

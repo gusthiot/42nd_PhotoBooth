@@ -50,9 +50,9 @@ logging.basicConfig(filename=filename, format='%(asctime)s - %(name)s(%(levelnam
 logger = logging.getLogger(__name__)
 logger.info('Programme lancé')
 try :
-    #os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
-    #os.environ["QT_DEBUG_PLUGINS"] = "1"
-    #os.environ["GST_DEBUG"] = "3"
+    # os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
+    # os.environ["QT_DEBUG_PLUGINS"] = "1"
+    # os.environ["GST_DEBUG"] = "3"
     app = QApplication(sys.argv)
     b_w = BlackWindow()
     b_w.showFullScreen()

@@ -10,10 +10,8 @@ from welcome_window import WelcomeWindow
 from display_window import DisplayWindow
 from thanks_window import ThanksWindow
 from wait_widget import WaitWidget
-#try:
+from confirm_dialog import ConfirmDialog
 from camera import Camera
-#except:
-#    print("no camera")
 from sftp import Sftp
 
 
@@ -35,12 +33,14 @@ class Process(QObject):
         self.t_w = None
         self.d_w = None
         self.v_w = None
+        self.c_d = None
         self.num = 0
         self.img = "20200501_132612"
         self.sftp = Sftp(mdir, withCam)
 
     def reinit(self):
         self.t_w = None
+        self.c_d = None
         self.d_w = None
         self.num = 0
 
@@ -67,7 +67,6 @@ class Process(QObject):
         self.d_w.okButton.clicked.connect(self.okPicture)
         self.d_w.cancelButton.clicked.connect(self.cancelPicture)
         self.d_w.showFullScreen()
-        print("showed")
         self.noteActivity("Ecran d'affichage affiché")
 
     def redoPicture(self):
@@ -99,11 +98,13 @@ class Process(QObject):
 
     def okThanks(self):
         self.noteActivity("Bouton ok envoi appuyé")
-        if self.t_w.sendEmail() and not re.match(r"[^@]+@[^@]+\.[^@]+", self.t_w.getEmail()):
+        if self.t_w.sendEmail() and not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)",
+                                                 self.t_w.getEmail()):
             self.noteActivity("Mauvais format d'adresse e-mail : ok non-soumis, message d'erreur affiché")
             self.t_w.setErrorMessage("Mauvais format d'adresse e-mail")
         else:
-            data = {'date': time.strftime("%d-%m-%y"), 'heure': time.strftime("%H:%M")}
+            data = {'date': time.strftime("%d-%m-%y"), 'heure': time.strftime("%H:%M"),
+                    'image' : self.img + '.jpg'}
             if self.t_w.sendSocial():
                 data['social media'] = "yes"
             else:
@@ -115,7 +116,13 @@ class Process(QObject):
             with open(self.ldir + self.img + '.json', mode='w') as outfile:
                 json.dump(data, outfile, indent=4)
             self.noteActivity("JSON sauvegardé")
-            self.t_w.close()
+            self.c_d = ConfirmDialog()
+            self.c_d.okButton.clicked.connect(self.okConfirm)
+            self.c_d.show()
+            
+    def okConfirm(self):                
+            self.t_w.close()           
+            self.c_d.close()
             self.reinit()
             self.w_w.player.play()
             self.noteActivity("Processus réinitialisé")
@@ -150,7 +157,7 @@ class Process(QObject):
 
     def check(self):
         print(self.minutes)
-        """
+        
         if not self.running:
             if self.minutes < 5:
                 self.minutes += 1
@@ -170,7 +177,7 @@ class Process(QObject):
             self.minutes = 0
             self.running = False
             QTimer.singleShot(2000, self.check)
-            """
+            
 
     def pressed(self):
         self.noteActivity("Réveil")
@@ -186,11 +193,15 @@ class Process(QObject):
                 if os.path.isfile(os.path.join(self.ldir, f)):
                     if f.endswith(".jpg"):
                         name = f.split(".")[0]
-                        self.noteActivity("Envoi de " + name)
-                        if self.sftp.put(f, self.ldir, self.rdir):
-                            if self.sftp.put(name + ".json", self.ldir, self.rdir):
-                                os.remove(os.path.join(self.ldir, f))
-                                os.remove(os.path.join(self.ldir, name + ".json"))
+                        if os.path.exists(os.path.join(self.ldir, name + ".json")):
+                            self.noteActivity("Envoi de " + name)
+                            if self.sftp.put(f, self.ldir, self.rdir):
+                                if self.sftp.put(name + ".json", self.ldir, self.rdir):
+                                    os.remove(os.path.join(self.ldir, f))
+                                    os.remove(os.path.join(self.ldir, name + ".json"))
+                        else:
+                            self.noteActivity("Suppression de l'image sans json : " + name)
+                            os.remove(os.path.join(self.ldir, f))
                 if not self.waiting:
                     self.sftp.close()
                     break
