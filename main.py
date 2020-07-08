@@ -15,6 +15,7 @@ import sys
 import os
 import logging
 import time
+import traceback
 from docopt import docopt
 from PyQt5.QtWidgets import QApplication
 from black_window import BlackWindow
@@ -49,7 +50,7 @@ logging.basicConfig(filename=filename, format='%(asctime)s - %(name)s(%(levelnam
                     level=logging.INFO, datefmt='%m/%d/%Y %I:%M:%S')
 logger = logging.getLogger(__name__)
 logger.info('Programme lancé')
-try :
+try:
     # os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
     # os.environ["QT_DEBUG_PLUGINS"] = "1"
     # os.environ["GST_DEBUG"] = "3"
@@ -61,6 +62,4 @@ try :
                       waitVideo, mainDirectory, withCam)
     process.start()
 except:
-    self.logger.error(traceback.format_exc())
-finally:
-    sys.exit(app.exec_())
+    logger.error(traceback.format_exc())
