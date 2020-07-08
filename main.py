@@ -61,5 +61,6 @@ try:
     process = Process(photoDirectory, remoteDirectory, welcomeVideo,
                       waitVideo, mainDirectory, withCam)
     process.start()
+    sys.exit(app.exec_())
 except:
     logger.error(traceback.format_exc())
