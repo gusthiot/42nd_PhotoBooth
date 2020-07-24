@@ -24,3 +24,6 @@ class WaitWidget(QVideoWidget, Ui_WaitWidget):
 
     def mousePressEvent(self, event):
         self.pressedSignal.emit()
+
+    def keyPressEvent(self, event):
+        self.pressedSignal.emit()
